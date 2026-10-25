@@ -1,0 +1,76 @@
+#include <stdio.h>
+
+float calculateSubtotal(float price, int quantity)
+{
+    return price * quantity;
+}
+
+float calculateDiscount(float subtotal, int member)
+{
+    float discount = 0;
+
+    if(subtotal > 5000)
+        discount += subtotal * 0.10;
+
+    if(member == 1)
+        discount += subtotal * 0.05;
+
+    return discount;
+}
+
+int main()
+{
+    float price, subtotal, discount;
+    float paymentFee = 0, finalAmount;
+    int quantity, member, payment;
+
+    printf("Enter product price: ");
+    scanf("%f", &price);
+
+    printf("Enter quantity: ");
+    scanf("%d", &quantity);
+
+    printf("Member? (1 = Yes, 0 = No): ");
+    scanf("%d", &member);
+
+    printf("Payment method (1 = Cash, 2 = Card): ");
+    scanf("%d", &payment);
+
+    if(price < 0 || quantity <= 0 ||
+       (member != 0 && member != 1) ||
+       (payment != 1 && payment != 2))
+    {
+        printf("Invalid input.\n");
+        return 0;
+    }
+
+    subtotal = calculateSubtotal(price, quantity);
+    discount = calculateDiscount(subtotal, member);
+
+    finalAmount = subtotal - discount;
+
+    if(payment == 2)
+        paymentFee = finalAmount * 0.02;
+
+    finalAmount += paymentFee;
+
+    printf("Subtotal: Rs. %.2f\n", subtotal);
+
+    if(subtotal > 5000)
+        printf("Subtotal Discount (10%%): Rs. %.2f\n",
+               subtotal * 0.10);
+    else
+        printf("Subtotal Discount: Rs. 0.00\n");
+
+    if(member == 1)
+        printf("Member Discount (5%%): Rs. %.2f\n",
+               subtotal * 0.05);
+    else
+        printf("Member Discount: Rs. 0.00\n");
+
+    printf("Total Discount: Rs. %.2f\n", discount);
+    printf("Payment Fee: Rs. %.2f\n", paymentFee);
+    printf("Final Payable: Rs. %.2f\n", finalAmount);
+
+    return 0;
+}
